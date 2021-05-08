@@ -15,6 +15,14 @@ console.log(enemyNames[3]);
 // Alert players that they are starting the round
 //window.alert("Welcome to Robot Gladiators!");
 
+// function to generate a random numeric value
+
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+    return value;
+}
+
 // create function. enemyName below is the arbitrarily named parameter used by the function.
 var fight = function(enemyName) {
     
@@ -32,14 +40,20 @@ var fight = function(enemyName) {
             if (confirmSkip) {
                 window.alert(playerName + " has decided to skip this fight. Goodbye!");
                 // Subtract money from playerMoney for skipping
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney = ", playerMoney);
                 break;
             }
         }
 
         // remove enemy's health by subtracting the amount sent in playerAttack variable
-        enemyHealth = enemyHealth - playerAttack;
+        //enemyHealth = Math.max(0, enemyHealth - playerAttack);
+
+        // generate random damage value based on player's attack power 
+        var damage = randomNumber(playerAttack-3, playerAttack);
+        console.log("playerAttack value is " + damage);
+
+        enemyHealth = Math.max(0, enemyHealth - damage);
 
         // Log a resulting message to the console so we know that it worked.
         console.log(playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining");
@@ -57,8 +71,13 @@ var fight = function(enemyName) {
         }   else {
             window.alert(enemyName + " still has " + enemyHealth + " health left!");
         }
+
+        // generate random damage value based on player's attack power 
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
+        console.log("enemyAttack value is " + damage);
+        
         // Subtract the value of 'enemyAttack' from the value of 'playerHealth' and use that result to update the value in the 'playerHealth' variable
-        playerHealth = playerHealth - enemyAttack;
+        playerHealth = Math.max(0, playerHealth - damage);
 
         // Log a resulting message to the console so we know that it worked.
         console.log(enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining");
@@ -85,7 +104,10 @@ var startGame = function() {
         if (playerHealth > 0) {
             window.alert("Welcome to Robot Gladiators! Round " + (i+1) );
             var pickedEnemyName = enemyNames[i];
-            enemyHealth = 50;
+
+            enemyHealth = randomNumber(40, 60);
+
+            console.log(pickedEnemyName, enemyHealth);
             // use debugger to pause script from running and check what's going on at that moment in the code
             // debugger;
             // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
@@ -115,7 +137,7 @@ var startGame = function() {
 var endGame = function () {
     // if player is still alive, player wins!
     if (playerHealth > 0) {
-        wndow.alert ("Great job, you've survived the game! You have a score of " + playerMoney + ".");
+        window.alert ("Great job, you've survived the game! You have a score of " + playerMoney + ".");
     }
     else {
         window.alert("You've lost your robot in battle.")
