@@ -60,13 +60,22 @@ var fight = function(enemy) {
             };
 
             // generate random damage value based on player's attack power 
-            var damage = randomNumber(playerInfo.attack-3, playerInfo.attack);
+            var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
 
-            // Calculate enemy health after attack and record a number greater than zero
+            // Remove enemy's health after attack and record a number greater than zero
             enemy.health = Math.max(0, enemy.health - damage);
 
             // Log a resulting message to the console so we know that it worked.
-            console.log(playerInfo.name + " attacked " + enemy.name + ". " + enemy.name + " now has " + enemy.health + " health remaining");
+            console.log(
+                playerInfo.name + 
+                " attacked " + 
+                enemy.name + 
+                ". " + 
+                enemy.name + 
+                " now has " + 
+                enemy.health + 
+                " health remaining"
+            );
 
             // Check enemy's health
             if (enemy.health <= 0) {
@@ -74,7 +83,6 @@ var fight = function(enemy) {
 
                 //award player money for winning
                 playerInfo.money = playerInfo.money + 20;
-                console.log("playerInfo.money is ", playerInfo.money)
 
                 // leave while loop since enemy is dead.
                 break;
@@ -128,6 +136,9 @@ var startGame = function() {
             // set health for picked enemy
             pickedEnemyObj.health = randomNumber(40, 60);
 
+            console.log(pickedEnemyObj);
+
+            // pass the pickedEnemyObj object variable's value into the fight function, where it will assume the value of the enemy parameter
             fight(pickedEnemyObj);
 
             // if we're not at the last enemy in the array
@@ -143,18 +154,19 @@ var startGame = function() {
         }   
         // if player is not alive, break out of the loop and let endGame function run
         else {
-                window.alert('You have lost your robot in battle! Game Over!');
-                break;
+            window.alert('You have lost your robot in battle! Game Over!');
+            break;
         }
     }
 
     // after the loop ends, player is either out of health or enemies to fight, so run the endGame function
-    endGame()
+    endGame();
 };
 
 // function to end the entire game
 var endGame = function () {
     window.alert ("The game has ended. Let's see how you did!");
+    
     //check localStorage for high score, if its not there, use 0
     var highscore = localStorage.getItem("highscore");
     if (highscore === null) {
@@ -174,12 +186,12 @@ var endGame = function () {
 
     // ask player if they'd like to play again
     var playAgainConfirm = window.confirm("Would you like to play again?");
+    
     if(playAgainConfirm) {
-    // restart the game
-    startGame();
-    }   
-    else {
-    window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+        // restart the game
+        startGame();
+    }   else {
+        window.alert("Thank you for playing Robot Gladiators! Come back soon!");
     }
 };
 
@@ -188,9 +200,11 @@ var shop = function() {
     // ask the player what they'd like to do
     var shopOptionPrompt = window.prompt(
         "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE."
-        );
+    );
+    
     // convert answer from prompt to an actual number
     shopOptionPrompt = parseInt(shopOptionPrompt)
+    
     //debugger;
     // use switch case to carry out action
     switch (shopOptionPrompt) {
